@@ -1,6 +1,25 @@
 # !! not a secure way to store passwords!!
+from cryptography.fernet import Fernet
+
+#loads encrypted key
+def load_key():
+    file = open("key.key", "rb")
+    key = file.read()
+    file.close()
+    return key
 
 master_pwd = input("What is the master password?: ")
+key = load_key() + master_pwd.encode()
+fer = Fernet(key) # initializing encryption module
+
+
+#creates key file
+'''
+def write_key():
+    key = Fernet.generate_key()
+    with open("key.key", "wb") as key_file:
+        key_file.write(key)
+'''
 
 #Function prints all Usernames and Passwords
 def view():
@@ -16,7 +35,10 @@ def add():
    pwd = input("Password: ")
 
    with open("passwords.txt", "a") as f:
-       f.write(name + "|" + pwd + "\n")
+       f.write(name + "|" + str(fer.encrypt(pwd.encode())) + "\n")
+
+#Encrypt Password
+
 
 #Input
 while True:
