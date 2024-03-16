@@ -2,9 +2,15 @@
 
 master_pwd = input("What is the master password?: ")
 
+#Function prints all Usernames and Passwords
 def view():
-   pass
+   with open("passwords.txt", "r") as f:
+       for line in f.readlines():
+           data = line.rstrip()
+           user, passw = data.split("|")
+           print("User:", user, ", Password:", passw)
 
+#Function adds a new Username|Passwords pair
 def add():
    name = input("Account Name: ")
    pwd = input("Password: ")
@@ -12,6 +18,7 @@ def add():
    with open("passwords.txt", "a") as f:
        f.write(name + "|" + pwd + "\n")
 
+#Input
 while True:
     mode = input("Would you like to add a new password or view existing ones (add/view)?, press q to quit!:  ").lower()
     if mode == "q":
